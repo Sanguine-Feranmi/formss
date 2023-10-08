@@ -1,0 +1,80 @@
+<div class="container mt-5">
+    <div class="form-area">
+        <h1>Template Driven Form</h1>
+        <form #s = 'ngForm' (ngSubmit)="onsubmit(s)">
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" class="form-control" placeholder="input your name... " minlength="5" maxlength="10" #fullname = "ngModel" name="fullnames" ngModel  required [ngClass]="{'is-invalid': fullname.touched && fullname.invalid}">
+                    <div *ngIf="fullname.errors?.['required']">
+                        <div class="alert alert-danger" *ngIf="fullname.touched && fullname.invalid">Fullname is required...</div>
+                    </div>
+                    <div *ngIf="fullname.errors?.['minlength']">
+                        <div class="alert alert-danger" *ngIf="fullname.touched && fullname.invalid">This field should contain min of 5 characters...</div>
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail: </label>
+                <input type="email" placeholder="input your email..." class="form-control" name="email" ngModel #email = 'ngModel' required pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
+            </div>
+                    <div *ngIf="email.errors?.['required']">
+                        <div class="alert alert-danger" *ngIf="email.touched && email.invalid">E-Mail is required...</div>
+                    </div>
+                    <div *ngIf="email.errors?.['pattern']">
+                        <div class="alert alert-danger" *ngIf="email.touched && email.invalid">E-Mail not supoorted...</div>
+                    </div>
+            <div class="form-group">
+                <label for="address">Address: </label>
+                <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="input your address..." name="address" ngModel></textarea>
+            </div>
+            <button type="submit" class="btn btn-success mt-3" [disabled]="s.invalid">Submit</button>
+        </form>
+    </div>    
+</div>
+
+<div class="container mt-5">
+    <div class="form-area">
+        <h1>Reactive Form</h1>
+        <form [formGroup] = "form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" class="form-control" placeholder="input your name... " name="username" required minlength="5" formControlName="username" [ngClass]="{'is-invalid': form.get('username')?.touched && form.get('username')?.invalid}">
+                    <div class="alert alert-danger" *ngIf="form.get('username')?.hasError('required') && form.get('username')?.touched && form.get('username')?.invalid" > this field is required</div>
+                    <div class="alert alert-danger" *ngIf="form.get('username')?.hasError('minlength') && form.get('email')?.touched" >this field should be 5 characters long</div>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail: </label>
+                <input type="email" placeholder="input your email..." class="form-control" name="email" formControlName =  "email" required pattern = "[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
+                    <div class="alert alert-danger" *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched" >email is required</div>
+                    <div class="alert alert-danger" *ngIf="form.get('email')?.hasError('pattern') && form.get('email')?.touched" >email should be valid</div>
+            </div>
+            <div class="form-group">
+                <label for="address">Address: </label>
+                <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="input your address..." name="address" formControlName = "address" [ngClass]="{'is-invalid': form.get('address')?.touched && form.get('address')?.invalid}">
+                </textarea>
+                <div class="alert alert-danger" *ngIf="form.get('address')?.hasError('required') && form.get('address')?.touched && form.get('address')?.invalid"> Address is required </div>
+            </div>
+            <!-- <div [formGroupName]="contactdetails">
+                <div class="form-group">
+                    <label for="address">Address: </label>
+                    <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="input your address..." name="address" formControlName = "address" [ngClass]="{'is-invalid': address.touched && address.invalid}">
+                    </textarea>
+                    <div *ngIf="address.touched && address.invalid">
+                        <div class="alert alert-danger" *ngIf="address.errors?.('required')"> Address is required </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address: </label>
+                    <input type="text" name="" id="" cols="30" rows="10" class="form-control" placeholder="input your address..." name="shipping_address" formControlName = "shipping_address" [ngClass]="{'is-invalid': form.get('shipping_address')?.touched && form.get('shipping_address')?.invalid}">
+                    <div class="alert alert-danger" *ngIf="form.get('shipping_address')?.hasError('required') && form.get('shipping_address')?.touched && form.get('shipping_address')?.invalid"> Address is required </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address: </label>
+                    <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="input your address..." name="address" formControlName = "address" [ngClass]="{'is-invalid': form.get('address')?.touched && form.get('address')?.invalid}">
+                    </textarea>
+                    <div class="alert alert-danger" *ngIf="form.get('address')?.hasError('required') && form.get('address')?.touched && form.get('address')?.invalid"> Address is required </div>
+                </div>
+            </div> -->
+            <button type="submit" class="btn btn-success" [disabled]="form.invalid">Submit</button>
+        </form>
+    </div>    
+</div>

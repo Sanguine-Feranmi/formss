@@ -1,0 +1,52 @@
+<div class="container mt-5">
+    <div class="form-area">
+        <h1>Template Driven Form</h1>
+        <form [formGroup]="form" (ngSubmit)="onsubmit()">
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" class="form-control" placeholder="input your name... " formControlName="fullname" [ngClass]="{'is-invalid': fullname.touched && fullname.invalid}">
+                    <div class="alert alert-danger" *ngIf="fullname.touched && fullname.invalid">
+                        <div *ngIf="fullname.errors?.['required']">fullname is required</div>
+                        <div *ngIf="fullname.errors?.['minlength']">This field should contain min of 5 characters...</div>
+                        <div *ngIf="fullname.errors?.['noSpaceValidations']">This field should not be spaced...</div>
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail: </label>
+                <input type="email" placeholder="input your email..." class="form-control" formControlName="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" [ngClass]="{'is-invalid': email.touched && email.invalid}">
+            </div>
+                    <div class="alert alert-danger" *ngIf="email.touched && email.invalid">
+                        <div *ngIf="email.errors?.['required']">E-Mail is required...</div>
+                        <div *ngIf="email.errors?.['pattern']">E-Mail is not valid...</div>
+                    </div>
+            <div formGroupName="contactaddress">
+                <div class="form-group">
+                    <label for="address">Address: </label>
+                    <textarea cols="20" rows="10" class="form-control" placeholder="input your address..." formControlName="address" ></textarea>
+                </div>
+                        <div class="alert alert-danger" *ngIf="address.touched && address.invalid">
+                            <div *ngIf="address.errors?.['required']">addressis required...</div>
+                            <div *ngIf="address.errors?.['pattern']">E-Mail is not valid...</div>
+                        </div>
+                <div class="form-group">
+                    <label for="email">ShippingAddress: </label>
+                    <input type="email" placeholder="input your email..." class="form-control" formControlName="shippingaddress" >
+                </div>
+                        <div class="alert alert-danger" *ngIf="shippingaddress.touched && shippingaddress.invalid">
+                            <div *ngIf="shippingaddress.errors?.['required']">shippingaddress is required...</div>
+                        </div>
+            </div>
+            <div class="form-group">
+                <label for="">Skills:</label>
+                <input type="text" class="form-control" formControlName="skills" #skill (keyup.enter)="addskills(skill)">
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let skill of skills.controls; let i = index">
+                        {{skill.value}}
+                        <a href="" class="btn btn-sm btn-danger" (click)="removeskills(i)">X</a>
+                    </li>
+                </ul>
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Submit</button>
+        </form>
+    </div>    
+</div>
